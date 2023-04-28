@@ -1,0 +1,14 @@
+{% extends 'shop/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="jumbotron text-center mt-5">
+        <h1 class="text-danger">Payment Failed</h1>
+        <p>Due to some issues, your order has not been completely processed. Please try again after sometime. Thanks</p>
+        <p>You can now close this window or use the
+            link below to visit
+            <a href="{% url 'shop:product_list' %}" class="card-link text-decoration-none text-success fw-bolder">home page</a>.
+        </p>
+    </div>
+</div>
+{% endblock content %}

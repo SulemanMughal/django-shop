@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">    
+    
+    {% include 'style.html' %}
+    
+    {% block extra_css %}
+    {% endblock extra_css %}
+    <title>{% block title %}czar Shop{% endblock title %}</title>
+</head>
+<body>
+    
+    
+    {% block header %}
+        {% include 'header.html' %}
+    {% endblock header %}
+
+
+    {% include 'notification.html' %}
+
+    {% block content %}
+        
+
+    {% endblock content %}
+
+    {% block footer %}
+    {% endblock footer %}
+    
+    {% include 'script.html' %}
+    
+    {% block extra_js %}
+    {% endblock extra_js %}
+</body>
+</html>

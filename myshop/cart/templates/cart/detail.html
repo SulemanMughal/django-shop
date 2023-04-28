@@ -1,0 +1,144 @@
+{% extends "shop/base.html" %}
+{% load static %}
+{% block title %}
+Your shopping cart
+{% endblock %}
+{% block content %}
+<div class="container my-3">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="fw-bolder text-center">Your shopping cart</h1>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <table class="table table-bordered border-primary align-middle table-responsive ">
+                <thead class="text-nowrap">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Remove</th>
+                    <th scope="col">Unit Price</th>
+                    <th scope="col">Price</th>
+                  </tr>
+                </thead>
+                <tbody class="text-nowrap">
+                    {% for item in cart %}
+                        {% with product=item.product %}
+                        <tr>
+                            <td>
+                                {{ forloop.counter }}
+                            </td>
+                            <td class="text-start"><a href="{{ product.get_absolute_url }}" >
+                                <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" width="150px" height="100px">
+                                </a>
+                            </td>
+                            <td>{{ product.name }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>
+                                <form action="{% url 'cart:cart_add' product.id %}" method="post">
+                                    <select name="quantity" id="id_quantity" class="form-control-sm" aria-valuemax="{{ item.quantity }}">
+                                        <option value="1">1</option>
+                                      
+                                        <option value="2">2</option>
+                                      
+                                        <option value="3">3</option>
+                                      
+                                        <option value="4">4</option>
+                                      
+                                        <option value="5">5</option>
+                                      
+                                        <option value="6">6</option>
+                                      
+                                        <option value="7">7</option>
+                                      
+                                        <option value="8">8</option>
+                                      
+                                        <option value="9">9</option>
+                                      
+                                        <option value="10">10</option>
+                                      
+                                        <option value="11">11</option>
+                                      
+                                        <option value="12">12</option>
+                                      
+                                        <option value="13">13</option>
+                                      
+                                        <option value="14">14</option>
+                                      
+                                        <option value="15">15</option>
+                                      
+                                        <option value="16">16</option>
+                                      
+                                        <option value="17">17</option>
+                                      
+                                        <option value="18" >18</option>
+                                      
+                                        <option value="19">19</option>
+                                      
+                                        <option value="20">20</option>
+                                      
+                                      </select>
+                                {{ item.update_quantity_form.update }}
+                                <input type="submit" value="Update" class="btn btn-sm btn-danger text-uppercase">
+                                {% csrf_token %}
+                                </form>
+                                </td>
+                            <td class="num">${{ item.price }}</td>
+                            <td class="num">${{ item.total_price }}</td>
+                        </tr>
+                        {% endwith %}
+                    {% endfor %}
+                    {% if cart.coupon %}
+                        <tr class="subtotal">
+                        <td>Subtotal</td>
+                        <td colspan="4"></td>
+                        <td class="num">${{ cart.get_total_price }}</td>
+                        </tr>
+                        <tr>
+                        <td>
+                        "{{ cart.coupon.code }}" coupon
+                        ({{ cart.coupon.discount }}% off)
+                        </td>
+                        <td colspan="4"></td>
+                        <td class="num neg">
+                        - ${{ cart.get_discount|floatformat:"2" }}
+                        </td>
+                        </tr>
+                        {% endif %}
+                        <tr class="total">
+                        <td>Total</td>
+                        <td colspan="4"></td>
+                        <td class="num">
+                        ${{ cart.get_total_price_after_discount|floatformat:"2" }}
+                        </td>
+                        </tr>
+            </tbody>
+            </table>
+            <p>Apply a coupon:</p>
+<form action="{% url 'coupons:apply' %}" method="post" class="row g-3">
+    <div class="col-auto">
+        <label for="id_code" class="visually-hidden">Apply a coupon</label>
+        <input type="text" name="code" required id="id_code" required="" class="form-control rounded-0">
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-success mb-3 rounded-0 fw-bolder ">Apply</button>
+    </div>
+{% csrf_token %}
+</form>
+        </div>
+    </div>
+    <div class="row justify-content-end">
+        <div class="col-12">
+            <p class="text-end">
+                <a href="{% url 'shop:product_list' %}" class="btn btn-dark rounded-0 text-uppercase">Continue shopping</a>
+                <a href="{% url 'orders:order_create' %}" class="btn btn-success rounded-0 text-uppercase">Checkout</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
